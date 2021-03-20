@@ -1,0 +1,7 @@
+@use 'vars';
+
+body {
+    display: flex;
+    background-color: vars.$black;
+    color: vars.$white;
+}
