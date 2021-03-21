@@ -1,19 +1,17 @@
 const path = require("path");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-let mode = "development";
-let target = "web";
-
-if (process.env.NODE_ENV === "production") {
-    mode = "production";
-    target = "browserslist";
-}
+const isDevelopment =
+    process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "staging";
 
 module.exports = {
-    mode: mode,
-    target: target,
+    mode: isDevelopment ? "development" : "production",
+    target: isDevelopment ? "web" : "browserslist",
+
+    entry: "./src/index.js", // only add this if you want to change default and if you are adding react refresh plugin
 
     output: {
         path: path.resolve(__dirname, "dist"), // build files output path needed by html webpack plugin
@@ -47,7 +45,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(js|jsx|tsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
@@ -60,10 +58,11 @@ module.exports = {
         new CleanWebpackPlugin(), // recommended to be in the top of array
         new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({ template: "./src/index.html" }),
-    ],
+        isDevelopment && new ReactRefreshWebpackPlugin(),
+    ].filter(Boolean),
 
     resolve: {
-        extensions: [".js", ".jsx", ".tsx"], // for importing of files without specifying extension
+        extensions: [".js", ".jsx", ".ts", ".tsx"], // for importing of files without specifying extension
     },
 
     devtool: "source-map",
