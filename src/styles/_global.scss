@@ -10,3 +10,15 @@ h1 {
     /* color: #999; */
     color: pink;
 }
+
+#root {
+    width: 100%;
+}
+
+.hero {
+    background: url("../assets/images/bricks_02.jpg");
+    background-repeat: repeat;
+    height: 270px;
+    width: 100%;
+    background-size: auto;
+}

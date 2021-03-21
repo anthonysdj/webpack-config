@@ -12,12 +12,31 @@ module.exports = {
     mode: mode,
     target: target,
 
+    output: {
+        assetModuleFilename: "images/[hash][ext][query]",
+    },
+
     module: {
         rules: [
             {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: "asset", // if asset is small in size webpack will inline
+                // type: "asset/resource", // normal
+                // type: "asset/inline", // makes images inline
+                // parser: {
+                //     // used to set when images will be inlined
+                //     dataUrlCondition: {
+                //         maxSize: 30 * 1024,
+                //     },
+                // },
+            },
+            {
                 test: /\.(s[ac]|c)ss$/i, // sass or scss or css
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: { publicPath: "" },
+                    },
                     "css-loader",
                     "postcss-loader",
                     "sass-loader",
