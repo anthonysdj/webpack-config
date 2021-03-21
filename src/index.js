@@ -1,3 +1,4 @@
-import "./styles/index.scss";
+import { render } from "react-dom";
+import App from "./components/App";
 
-console.log("working");
+render(<App />, document.getElementById("root"));
